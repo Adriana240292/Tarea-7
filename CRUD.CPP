@@ -9,14 +9,31 @@ struct Estudiante{
 	char apellidos[50];
 	int telefono;
 };
-
+void Leer();
 void Crear ();
 main(){
-	
-	
+	Leer();
 	Crear();
+	system("pause");
 	
-	
+}
+void Leer(){
+	system("cls");
+	FILE* archivo = fopen(nombre_archivo,"rb");
+	if (!archivo){
+		archivo = fopen(nombre_archivo,"w+b");
+	}
+	Estudiante estudiante;
+	int id=0; // indice o posicion del registro dentro del archivo
+	fread(&estudiante,sizeof(Estudiante),1,archivo);
+	cout<<"_________________________________"<<endl;
+	cout<<"ID"<<"|"<<"Codigo"<<"|"<<"Nombres"<<"|"<<"Apellidos"<<"|"<<"Telefono"<<endl;
+	do{
+	cout<<id<<"|"<<estudiante.codigo<<"|"<<estudiante.nombres<<"|"<<estudiante.apellidos<<"|"<<estudiante.telefono<<endl,	
+		fread(&estudiante,sizeof(Estudiante),1,archivo);
+		id+=1;
+	}while(feof(archivo)==0);
+	fclose(archivo);
 	
 }
 void Crear(){
@@ -41,8 +58,6 @@ void Crear(){
 		cout<<"Desea ingresar otro estudiante (s/n):";
 		cin>>res;
 	}while(res=='s' || res=='S');
-	
-	
-	
 	fclose(archivo);
+	Leer();
 }
